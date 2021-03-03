@@ -153,11 +153,19 @@
                                     <constraint firstAttribute="trailing" secondItem="jY9-l3-E1g" secondAttribute="trailing" id="y40-C4-FjS"/>
                                 </constraints>
                             </view>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XEI-4Y-GHk">
+                                <rect key="frame" x="165" y="350" width="84" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.60271531339999995" green="0.1096765772" blue="0.1214569435" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="stz-qy-NwU"/>
                         <color key="backgroundColor" name="BrandLightBlue"/>
                         <constraints>
                             <constraint firstItem="Scg-da-zi8" firstAttribute="trailing" secondItem="stz-qy-NwU" secondAttribute="trailing" id="3Fk-Xo-DV8"/>
+                            <constraint firstItem="XEI-4Y-GHk" firstAttribute="centerX" secondItem="h2S-Ae-zdW" secondAttribute="centerX" id="5oB-bd-ajm"/>
+                            <constraint firstItem="XEI-4Y-GHk" firstAttribute="top" secondItem="j5s-Lc-WfT" secondAttribute="bottom" constant="8" symbolic="YES" id="QlM-0J-FDh"/>
                             <constraint firstItem="j5s-Lc-WfT" firstAttribute="trailing" secondItem="stz-qy-NwU" secondAttribute="trailing" id="Tq9-EG-2wo"/>
                             <constraint firstItem="Scg-da-zi8" firstAttribute="leading" secondItem="stz-qy-NwU" secondAttribute="leading" id="Ub1-7q-3QS"/>
                             <constraint firstItem="Scg-da-zi8" firstAttribute="top" secondItem="stz-qy-NwU" secondAttribute="top" id="oh4-tH-9d1"/>
@@ -168,6 +176,7 @@
                     <navigationItem key="navigationItem" id="sO1-Hg-EZd"/>
                     <connections>
                         <outlet property="emailTextfield" destination="u72-XV-6FN" id="Nfc-8N-TNr"/>
+                        <outlet property="errorLabel" destination="XEI-4Y-GHk" id="MrK-OJ-0BS"/>
                         <outlet property="passwordTextfield" destination="hLb-P9-NkF" id="uaM-fo-m8M"/>
                         <segue destination="lwd-AH-u8E" kind="show" identifier="RegisterToChat" id="ar9-e8-pki"/>
                     </connections>
@@ -376,7 +385,7 @@
         <designable name="y7D-jv-BlJ"/>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="f2p-nn-uv6"/>
+        <segue reference="ar9-e8-pki"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="paperplane.fill" catalog="system" width="128" height="118"/>
