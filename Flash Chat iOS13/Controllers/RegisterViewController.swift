@@ -26,7 +26,7 @@ class RegisterViewController: UIViewController {
                 errorLabel.textColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
                 errorLabel.text = "Sucess! You're now registered."
                 errorLabel.isHidden = false
-                performSegue(withIdentifier: "RegisterToChat", sender: self)
+                performSegue(withIdentifier: K.registerSegue, sender: self)
             }
             }
         }
