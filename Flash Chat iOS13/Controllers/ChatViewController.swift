@@ -15,54 +15,52 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var messageTextfield: UITextField!
     
     let db = Firestore.firestore()
-    var messages: [Message] = [
-        Message(sender: "1@2.com", body: "Hey"),
-        Message(sender: "a@b.com", body: "Hello"),
-        Message(sender: "1@2.com", body: "What's up?"),
-        Message(sender: "1@2.com", body: "What shall we do with a drunken sailor? What shall we do with a drunken sailor? What shall we do with a drunken sailor, early in the morning?")
-    ]
+    var messages: [Message] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = K.appName
         navigationItem.hidesBackButton = true
-
+        
         tableView.dataSource = self
         tableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
-    
+        
         loadMessages()
     }
     
     func loadMessages() {
-        messages = []
-        
-        db.collection(K.FStore.collectionName).getDocuments { (querySnapshot, error) in
-            if let e = error {
-                print("There was an issue retrieving data from Firestore. \(e)")
-            } else {
-                if let snapshotDocuments = querySnapshot?.documents {
-                    for snapshot in snapshotDocuments {
-                        let data = snapshot.data()
-                        if let sender = data[K.FStore.senderField] as? String, let body = data[K.FStore.bodyField] as? String {
-                            let message = Message(sender: sender, body: body)
-                            self.messages.append(message)
-                            
-                            // Reload TableView with new Messages
-                            DispatchQueue.main.async {
-                                self.tableView.reloadData()
+        db.collection(K.FStore.collectionName)
+            .order(by: K.FStore.dateField)
+            .addSnapshotListener { (querySnapshot, error) in
+                if let e = error {
+                    print("There was an issue retrieving data from Firestore. \(e)")
+                } else {
+                    self.messages = []
+                    if let snapshotDocuments = querySnapshot?.documents {
+                        for snapshot in snapshotDocuments {
+                            let data = snapshot.data()
+                            if let sender = data[K.FStore.senderField] as? String, let body = data[K.FStore.bodyField] as? String {
+                                let message = Message(sender: sender, body: body)
+                                self.messages.append(message)
+                                
+                                // Reload TableView with new Messages
+                                DispatchQueue.main.async {
+                                    self.tableView.reloadData()
+                                }
                             }
                         }
                     }
                 }
             }
-        }
     }
     
     @IBAction func sendPressed(_ sender: UIButton) {
         if let messageBody = messageTextfield.text, let messageSender = Auth.auth().currentUser?.email {
             db.collection(K.FStore.collectionName).addDocument(data: [
-                                                                K.FStore.senderField: messageSender,
-                                                                K.FStore.bodyField: messageBody]) { (error) in
+                K.FStore.senderField: messageSender,
+                K.FStore.bodyField: messageBody,
+                K.FStore.dateField: Date().timeIntervalSince1970
+            ]) { (error) in
                 if let e = error {
                     print("There was an issue saving data to firestorm. \(e)")
                 } else {
